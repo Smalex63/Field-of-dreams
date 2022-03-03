@@ -238,33 +238,53 @@ class Player(Display):
 				
 	def supergame(self):
 		Database.field = '*' * len(Database.supergameAnswer)
+		Database.correct = ''
+		Database.missed = ''
 		openLetters = False
+		notLetter = False
 		supergame = input('Хотите ли Вы сыграть в Супер игру? Если выиграете – получите Супер приз - автомобиль!!! В случае проигрыша Вы лишитесь всех призов. Итак, Супер игра? д/н ').lower()
 		print()
 		if supergame == 'д' or supergame == 'да':
 			while True:
 				self.get_super_display()
 				if openLetters != True:
+				#пока 'флаг' 'буквыОткрыты' в положении False, цикл предлагает ввести буквы
 					print()
 					Database.supergameCalledLetters = input(f'{self.name}, Вы можете назвать {Database.supergameOpenLetters} букв(ы): ').upper()
 					print()
-					for i in Database.supergameCalledLetters:
-						for j in range(len(Database.supergameAnswer)):
-							if Database.supergameAnswer[j] == i:
-								Database.field = Database.field[:j] + i + Database.field[j + 1:]
+					if len(Database.supergameCalledLetters) <= Database.supergameOpenLetters:
+						for letter in Database.supergameCalledLetters:
+							if letter not in 'абвгдеёжзийклмнопрстуфхцчшщьыъэюя'.upper():
+								notLetter = True
+						if notLetter == True:
+							print('Введите ТОЛЬКО БУКВЫ!')
+							time.sleep(2)
+						else:
+							for i in Database.supergameCalledLetters:
+								if i in Database.supergameAnswer:
+									Database.correct += i
+								else:
+									Database.missed += i
+								for j in range(len(Database.supergameAnswer)):
+									if Database.supergameAnswer[j] == i:
+										Database.field = Database.field[:j] + i + Database.field[j + 1:]
 								openLetters = True
+								#'флаг' 'буквыОткрыты' в положении True, цикл выводит обновлённый экран
+					elif len(Database.supergameCalledLetters) > Database.supergameOpenLetters:
+						print('Вы ввели слишком много букв')
+					    time.sleep(2)
 				else:
 					print()
 					print('У Вас есть одна минута на размышление. Время пошло.')
 					print()
 					for sec in reversed(range(10, 60)):
-    						print(' ', sec, end='')
-    						time.sleep(1)
-    						print('\r', end='')
+						print(' ', sec, end='')
+						time.sleep(1)
+						print('\r', end='')
 					for sec in reversed(range(1, 10)):
-   						print(' ', '0' + str(sec), end='')
-    						time.sleep(1)
-    						print('\r', end='')
+						print(' ', '0' + str(sec), end='')
+						time.sleep(1)
+						print('\r', end='')
 					print('\n')	
 					myAnswer = input('Итак, введите слово: ').upper()
 					print()

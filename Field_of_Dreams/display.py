@@ -43,8 +43,6 @@ class Display:
 	@staticmethod
 	def get_super_display():
 	#этот метод выводит данные для супер игры
-		Database.correct = ''
-		Database.missed = ''
 		print('____________________________________________________________')
 		print(f'ВОПРОС: "{Database.supergameQuestion}"')
 		print()
