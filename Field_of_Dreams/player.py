@@ -262,7 +262,7 @@ class Player(Display):
     						time.sleep(1)
     						print('\r', end='')
 					for sec in reversed(range(1, 10)):
-   						 print(' ', '0' + str(sec), end='')
+   						print(' ', '0' + str(sec), end='')
     						time.sleep(1)
     						print('\r', end='')
 					print('\n')	
